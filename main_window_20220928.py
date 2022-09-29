@@ -20,7 +20,7 @@ class MainWindow(QMainWindow,  Ui_MainWindow):
 		self.model.setRootPath(dir_path)
 
 		self.lineEdit_FROM.setText("${HOME}")
-		self.pushButton_EXEC.setStyleSheet("background-color : coral")
+		self.pushButton_EXEC.setStyleSheet("background-color : LightSalmon")
 	
 		k = 0 # Initialise a counter used to manage position of horizontal layout in the main vertical layout of the window 
 		for i in range(1,4,1):	# Loop through 3 dictionary (i = index for each line and the number of dictionary)
@@ -29,7 +29,7 @@ class MainWindow(QMainWindow,  Ui_MainWindow):
 			max_button = 8
 			cu_hl = 0
 			cu_hl_mem = 0
-			# #print("incermentation {}".format(i))
+			print("incermentation {}".format(i))
 			
 			# Create another counter for columnView
 			j = 40 + 1
@@ -38,9 +38,9 @@ class MainWindow(QMainWindow,  Ui_MainWindow):
 
 			# Manage horizontal layouts for this set of buttons
 			nb_horizLayout = 1 + int(nb_button/max_button) # max 10 button on same line
-			#print("Need to create {} horizontal layout".format(nb_horizLayout))
+			print("Need to create {} horizontal layout".format(nb_horizLayout))
 			for i_hl in range(0, nb_horizLayout, 1):
-				# #print("create Layout: self.horizontalLayout_{}{}".format(str(i_hl), str(i)))
+				print("create Layout: self.horizontalLayout_{}{}".format(str(i_hl), str(i)))
 				globals()["self.horizontalLayout_" + str(i_hl)+ str(i)] = QHBoxLayout()
 				globals()["self.horizontalLayout_" + str(i_hl) + str(i)].setContentsMargins(10, 1, 10, 1)
 				globals()["self.horizontalLayout_" + str(i_hl) + str(i)].setSpacing(0)
@@ -51,8 +51,6 @@ class MainWindow(QMainWindow,  Ui_MainWindow):
 			nb_button_add = 0
 			nb_button_add_line = 0
 			for key, value in globals()["button_l" + str(i)].items():
-
-				# Manage maximum button per line
 				nb_button_add += 1
 				nb_button_add_line += 1
 				cu_hl = int((nb_button_add - 1)/max_button)
@@ -61,36 +59,42 @@ class MainWindow(QMainWindow,  Ui_MainWindow):
 					spacerItem = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 					globals()["self.horizontalLayout_" + str(cu_hl) + str(i)].addItem(spacerItem)
 				cu_hl_mem = cu_hl
-
-				# Create and Add Button
 				globals()["self.pushButton_"+str(key)] = QPushButton(self.centralWidget)
+				# sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+				# sizePolicy.setHorizontalStretch(0)
+				# sizePolicy.setVerticalStretch(0)       	
+				# sizePolicy.setHeightForWidth(globals()["self.pushButton_"+str(key)].sizePolicy().hasHeightForWidth())
+				
+				# globals()["self.pushButton_"+str(key)].setSizePolicy(sizePolicy)
 				globals()["self.pushButton_"+str(key)].setMinimumSize(QSize(100, 35))
 				globals()["self.pushButton_"+str(key)].setObjectName("pushButton_{}".format(key))
 				globals()["self.pushButton_"+str(key)].setText(str(key))
+				globals()["self.pushButton_"+str(key)].resize(600, 50)
 				globals()["self.horizontalLayout_" + str(cu_hl) + str(i)].addWidget(globals()["self.pushButton_"+str(key)])
 				spacerItem = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 				globals()["self.horizontalLayout_" + str(cu_hl) + str(i)].addItem(spacerItem)
-			
+# 				self.verticalLayout_2.insertLayout(k, globals()["self.horizontalLayout_" + str(i)])
+# 				print("insert self.horizontalLayout_{} at position {}".format(i, k))			
 				
-				# Create and Add Column (1 for each button)
+				
 				globals()["self.tab_"+str(key)] = QWidget()
 				globals()["self.tab_"+str(key)].setObjectName("tab_{}".format(key))
 				globals()["self.horizontalLayout_" + str(j)] = QHBoxLayout(globals()["self.tab_"+str(key)])
 				globals()["self.horizontalLayout_" + str(j)].setObjectName("horizontalLayout_{}".format(str(j)))	
-
 				globals()["self.columnView_"+str(key)] = QColumnView(globals()["self.tab_"+str(key)])
+				# sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+				# sizePolicy.setHorizontalStretch(0)
+				# sizePolicy.setVerticalStretch(0)
+				# sizePolicy.setHeightForWidth(globals()["self.columnView_"+str(key)].sizePolicy().hasHeightForWidth())
+				# globals()["self.columnView_"+str(key)].setSizePolicy(sizePolicy)
 				globals()["self.columnView_"+str(key)].setMinimumSize(QSize(0, 0))
 				globals()["self.columnView_"+str(key)].setObjectName("columnView_{}".format(str(key)))
 				globals()["self.horizontalLayout_" + str(j)].addWidget(globals()["self.columnView_"+str(key)])
 				self.stackedWidget.addWidget(globals()["self.tab_"+str(key)])
 
-				# Create signal and connect it to the slot self.displayColumn
 				globals()["self.pushButton_"+str(key)].pressed.connect(lambda val=key: self.displayColumn(val))
-				# Static configuration for columnView object
 				globals()["self.columnView_"+str(key)].setModel(self.model)
 				globals()["self.columnView_"+str(key)].setRootIndex(self.model.index(value))
-				# Create signal and connect it to slot
-				globals()["self.columnView_"+str(key)].clicked.connect(self.displayPath)
 			
 			# Manage button position by adding spaces if number of button < 10
 			for i_space in range(nb_button_add_line, (max_button+1), 1):
@@ -101,69 +105,106 @@ class MainWindow(QMainWindow,  Ui_MainWindow):
 			for i_hl in range(0, nb_horizLayout, 1):
 				self.verticalLayout_2.insertLayout(k, globals()["self.horizontalLayout_" + str(i_hl) + str(i)])
 				k += 1
-				# #print("insert self.horizontalLayout_{}{} at position {}".format(i_hl, i, k))
+				print("insert self.horizontalLayout_{}{} at position {}".format(i_hl, i, k))
 			
 			
-			# #print("k = {}".format(k))
+			print("k = {}".format(k))
 			self.line = QFrame(self.centralWidget)
 			# self.line.setLineWidth(3)
 			self.line.setFrameShape(QFrame.Shape.HLine)
 			self.line.setFrameShadow(QFrame.Shadow.Sunken)
 			self.line.setObjectName("line")
 			self.verticalLayout_2.insertWidget(k, self.line)
-			# #print("insert line at position {}".format(k))
+			print("insert line at position {}".format(k))
 			k += 1
 			
 
 		self.verticalLayout_2.insertWidget(k, self.stackedWidget)
-		# #print("insert Widget stacked to verticalLayout position 7")			
+		print("insert Widget stacked to verticalLayout position 7")			
+# 		self.verticalLayout_2.addWidget(self.stackedWidget)
+# 		print("add Widget stacked to verticalLayout")
+# 		self.verticalLayout_2.addLayout(self.horizontalLayout_5)
+# 		print("add horizontalLayout_5 to verticalLayout")
+# 		self.verticalLayout_2.addLayout(self.horizontalLayout_6)
+# 		print("add horizontalLayout_6 to verticalLayout")
+# 		self.verticalLayout_2.addLayout(self.horizontalLayout_7)
+# 		print("add horizontalLayout_7 to verticalLayout")
+		
 
 
-	# @pyqtSlot(str)
+
+
+	@pyqtSlot(str)
 	def displayColumn(self, button):
-		# #print("display column : {}".format(button))
+		print("display column : {}".format(button))
 		self.stackedWidget.setCurrentWidget(globals()["self.tab_"+ str(button)])
+	# 	for key, value in button_l1.items():
+	# 		@pyqtSlot()
+	# 		def globals()["self.show_"+str(key)]():
+	# 			self.stackedWidget.setCurrentWidget(locals()["self.tab_"+str(key)]
 
 
+	# #    @pyqtSlot()
+	#     def on_pushButton_RAW_clicked(self):
+	#         self.stackedWidget.setCurrentWidget(self.tab_RAW)
+	# #    @pyqtSlot()
+	#     def on_pushButton_CSL_clicked(self):
+	#         self.stackedWidget.setCurrentWidget(self.tab_CSL)  
+	# #    @pyqtSlot()
+	#     def on_pushButton_SET_clicked(self):
+	#         self.stackedWidget.setCurrentWidget(self.tab_SET)
+	# 
+	# 
+	#   
+	#     def on_columnView_RAW_clicked(self,  index):
+	#         indexItem = self.model.index(index.row(), 0, index.parent())
+	#         filePath = self.model.filePath(indexItem)
+	#         if self.checkBox_ADD.isChecked():
+	#             self.lineEdit_INPUT.setText(filePath)
+	#         elif self.checkBox_FROM.isChecked():
+	#             self.lineEdit_FROM.setText(filePath)
+	# 
+		def on_columnView_CSL_clicked(self,  index):
+		    indexItem = self.model.index(index.row(), 0, index.parent())
+		    filePath = self.model.filePath(indexItem)
+		    self.lineEdit_CMD.setText(filePath)
 
-	def displayPath(self,  index):
-		# #print("display path {}".format(index))
-		indexItem = self.model.index(index.row(), 0, index.parent())
-		filePath = self.model.filePath(indexItem)
-		self.lineEdit_CMD.setText(filePath)
+	# 
+	#     def on_columnView_SET_clicked(self,  index):
+	#         indexItem = self.model.index(index.row(), 0, index.parent())
+	#         filePath = self.model.filePath(indexItem)
+	#         if self.checkBox_ADD.isChecked():
+	#             self.lineEdit_INPUT.setText(filePath)
+	#         elif self.checkBox_FROM.isChecked():
+	#             self.lineEdit_FROM.setText(filePath)        
 
-	def on_pushButton_GOTO_pressed(self):
-		self.lineEdit_FROM.setText(self.lineEdit_CMD.displayText())
-
-	def on_pushButton_ADD_pressed(self):
-		current_text = self.lineEdit_TERM
-		new_text = "{} {}".format(current_text.displayText(), self.lineEdit_CMD.displayText())
+	#    @pyqtSlot()
+	def on_pushButton_ADD_clicked(self):
+		current_text = self.lineEdit_CMD
+		new_text = "{} {}".format(current_text.displayText(), self.lineEdit_INPUT.displayText())
 		self.lineEdit_TERM.setText(new_text)
 
 	#    @pyqtSlot()
-	def on_pushButton_CLEAR_pressed(self):
-		self.lineEdit_TERM.clear()
-		self.lineEdit_TERM.setText(">")
+	def on_pushButton_CLEAR_clicked(self):
+		self.lineEdit_CMD.clear()
 
 
 	
 
 	#    @pyqtSlot()
-	def on_pushButton_HOME_pressed(self):
+	def on_pushButton_HOME_clicked(self):
 		self.lineEdit_FROM.setText("${HOME}")
 
 	#    @pyqtSlot()
-	def on_pushButton_EXEC_pressed(self):
-		current_cmd = self.lineEdit_TERM.displayText()
-		current_cmd = current_cmd[1:]	# to remove the cosmetic charachter ">"
-		#print(current_cmd)
+	def on_pushButton_EXEC_clicked(self):
+		current_cmd = self.lineEdit_CMD
 		source = self.lineEdit_FROM
-		cmd = "/opt/local/bin/xterm -fg white -bg black -e \'cd {}; {};read\'".format(source.displayText(), current_cmd)
+		cmd = "xterm -e \'cd {}; {};read\'".format(source.displayText(), current_cmd.displayText())
 	#        os.system(cmd)        
 		subprocess.Popen(shlex.split(cmd))
 
-	#print("end mainWindow class")
+	print("end mainWindow class")
 
-		
+        
 
-	  
+      

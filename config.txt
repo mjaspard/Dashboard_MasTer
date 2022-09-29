@@ -1,7 +1,37 @@
-RAW # /Users/maxime
-CSL # /Volumes/hp-1650-Data_Share1/SAR_CSL
-SET # /Users/maxime/scripts/Shell
-SCRIPTS # /Volumes/doris/SAR/MasTerToolbox/SCRIPTS_OK
-MSBAS # /Volumes/hp-D3602-Data_RAID5/MSBAS
-SAR_SM # /Volumes/hp-1650-Data_Share1/SAR_SM
-SAR_MP # /Volumes/hp-D3601-Data_RAID6/SAR_MASSPROCESS
+
+
+
+1_DATA # /Users/maxime
+1_CSL # /Volumes/hp-1650-Data_Share1/SAR_CSL
+1_SET # /Users/maxime/scripts/Shell
+1_RESAMPLED # /Volumes/doris/SAR/MasTerToolbox/SCRIPTS_OK
+1_AMPLI # /Volumes/hp-D3602-Data_RAID5/MSBAS
+1_DORIS # /Volumes/hp-1650-Data_Share1/SAR_SM
+1_TEST # /Volumes/hp-D3601-Data_RAID6/SAR_MASSPROCESS
+1_DATA1 # /Users/maxime
+1_CSL1 # /Volumes/hp-1650-Data_Share1/SAR_CSL
+1_SET1 # /Users/maxime/scripts/Shell
+1_RESAMPLED1 # /Volumes/doris/SAR/MasTerToolbox/SCRIPTS_OK
+1_AMPLI1 # /Volumes/hp-D3602-Data_RAID5/MSBAS
+1_DORIS1 # /Volumes/hp-1650-Data_Share1/SAR_SM
+1_TEST1 # /Volumes/hp-D3601-Data_RAID6/SAR_MASSPROCESS
+1_DATA2 # /Users/maxime
+1_CSL2 # /Volumes/hp-1650-Data_Share1/SAR_CSL
+1_SET2 # /Users/maxime/scripts/Shell
+1_RESAMPLED2 # /Volumes/doris/SAR/MasTerToolbox/SCRIPTS_OK
+1_AMPLI2 # /Volumes/hp-D3602-Data_RAID5/MSBAS
+1_DORIS2 # /Volumes/hp-1650-Data_Share1/SAR_SM
+1_TEST2 # /Vol
+
+
+
+2_SCRIPTS_OK # /Users/maxime
+2_CRON # /Volumes/hp-1650-Data_Share1/SAR_CSL
+2_SET # /Users/maxime/scripts/Shell
+2_PARAM # /Volumes/doris/SAR/MasTerToolbox/SCRIPTS_OK
+
+
+
+3_RUN1 # /Users/maxime
+3_RUN2 # /Volumes/hp-1650-Data_Share1/SAR_CSL
+3_RUN3 # /Users/maxime/scripts/Shell

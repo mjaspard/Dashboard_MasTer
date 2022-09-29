@@ -2,7 +2,7 @@
   "header": {
     "comment": "eric project file for project Dasgboard_MasTer",
     "copyright": "Copyright (C) 2022 MJ, maxime@ecgs.lu",
-    "saved": "2022-09-14, 09:30:01"
+    "saved": "2022-09-20, 09:52:10"
   },
   "project": {
     "AUTHOR": "MJ",
@@ -33,7 +33,9 @@
       "README.*": "OTHERS",
       "makefile": "OTHERS"
     },
-    "FORMS": [],
+    "FORMS": [
+      "main_window.ui"
+    ],
     "HASH": "55e6b0d5c7c40af29c74d1b0e4bc9ba26ba1025b",
     "IDLPARAMS": {
       "DefinedNames": [],
@@ -68,7 +70,9 @@
     },
     "RESOURCES": [],
     "SOURCES": [
+      "Ui_main_window.py",
       "__init__.py",
+      "main_window.py",
       "start_app.py"
     ],
     "SPELLEXCLUDES": "",
