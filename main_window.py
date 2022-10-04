@@ -1,5 +1,5 @@
 
-import re, subprocess
+import re, subprocess, platform, os
 import subprocess,  shlex
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import QFileSystemModel
@@ -21,12 +21,13 @@ class MainWindow(QMainWindow,  Ui_MainWindow):
 
 		self.lineEdit_FROM.setText("${HOME}")
 		self.pushButton_EXEC.setStyleSheet("background-color : coral")
+		self.actionOpen_file.triggered.connect(self.openConfigFile)
 	
 		k = 0 # Initialise a counter used to manage position of horizontal layout in the main vertical layout of the window 
 		for i in range(1,4,1):	# Loop through 3 dictionary (i = index for each line and the number of dictionary)
 		
 			nb_button = len(globals()["button_l" + str(i)])
-			max_button = 8
+			max_button = self.max_button
 			cu_hl = 0
 			cu_hl_mem = 0
 			# #print("incermentation {}".format(i))
@@ -91,6 +92,10 @@ class MainWindow(QMainWindow,  Ui_MainWindow):
 				globals()["self.columnView_"+str(key)].setRootIndex(self.model.index(value))
 				# Create signal and connect it to slot
 				globals()["self.columnView_"+str(key)].clicked.connect(self.displayPath)
+				# Create action from menunar
+				# self.actionOpen_file.clicked.connect(self.openConfigFile)
+
+
 			
 			# Manage button position by adding spaces if number of button < 10
 			for i_space in range(nb_button_add_line, (max_button+1), 1):
@@ -119,15 +124,13 @@ class MainWindow(QMainWindow,  Ui_MainWindow):
 		# #print("insert Widget stacked to verticalLayout position 7")			
 
 
-	# @pyqtSlot(str)
+
 	def displayColumn(self, button):
-		# #print("display column : {}".format(button))
 		self.stackedWidget.setCurrentWidget(globals()["self.tab_"+ str(button)])
 
 
 
 	def displayPath(self,  index):
-		# #print("display path {}".format(index))
 		indexItem = self.model.index(index.row(), 0, index.parent())
 		filePath = self.model.filePath(indexItem)
 		self.lineEdit_CMD.setText(filePath)
@@ -140,30 +143,43 @@ class MainWindow(QMainWindow,  Ui_MainWindow):
 		new_text = "{} {}".format(current_text.displayText(), self.lineEdit_CMD.displayText())
 		self.lineEdit_TERM.setText(new_text)
 
-	#    @pyqtSlot()
+
 	def on_pushButton_CLEAR_pressed(self):
 		self.lineEdit_TERM.clear()
 		self.lineEdit_TERM.setText(">")
 
 
 	
-
-	#    @pyqtSlot()
 	def on_pushButton_HOME_pressed(self):
 		self.lineEdit_FROM.setText("${HOME}")
 
-	#    @pyqtSlot()
+
 	def on_pushButton_EXEC_pressed(self):
 		current_cmd = self.lineEdit_TERM.displayText()
-		current_cmd = current_cmd[1:]	# to remove the cosmetic charachter ">"
+		current_cmd = current_cmd[2:]	# to remove the cosmetic charachter ">" and space
 		#print(current_cmd)
 		source = self.lineEdit_FROM
-		cmd = "/opt/local/bin/xterm -fg white -bg black -e \'cd {}; {};read\'".format(source.displayText(), current_cmd)
-	#        os.system(cmd)        
-		subprocess.Popen(shlex.split(cmd))
+		platform_str = str(platform.uname())
+		if re.search("Linux", platform_str):
+			print("Linux platform detected")
+			cmd = "xterm -fg white -bg black -e \'cd {}; {};read\'".format(source.displayText(), current_cmd)       
+			subprocess.Popen(shlex.split(cmd))
+		elif re.search("Darwin", platform_str):
+			import appscript
+			print("MacOS platform detected")
+			print(current_cmd)
+			appscript.app('Terminal').do_script(current_cmd)
 
-	#print("end mainWindow class")
 
+		else:
+			print(platform_str)
+			print("I don't recognise this platform")
+
+
+	def openConfigFile(self):
+		print("Open config file")
+		cmd = "open {}".format(self.config_file)
+		os.system(cmd)
 		
 
 	  

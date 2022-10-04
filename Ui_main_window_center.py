@@ -260,7 +260,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.lineEdit_CMD = QtWidgets.QLineEdit(self.centralWidget)
         self.lineEdit_CMD.setMinimumSize(QtCore.QSize(0, 80))
-        self.lineEdit_CMD.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeading|QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignTop)
+        self.lineEdit_CMD.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeading|QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.lineEdit_CMD.setObjectName("lineEdit_CMD")
         self.horizontalLayout_2.addWidget(self.lineEdit_CMD)
         self.verticalLayout = QtWidgets.QVBoxLayout()
